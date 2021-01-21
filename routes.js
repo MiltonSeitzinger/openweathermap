@@ -6,13 +6,11 @@ module.exports = function (app){
 
     /** 
     ** Endpoint -> /location
-    *  @params  -> no contiene.
-    *  @return -> Los datos de la ciudad de acuerdo a la IP.
+    *  Llama al controlador getLocation -> La cual obtiene los datos de la ciudad de acuerdo a la IP.
     **/
     app.get('/v1/location', (req, res) => {
 			controllers.getLocation()
 				.then((locations) => {
-					console.log('location: ', locations)
 					res.status(200).send({ locations: locations})
 			})
 				.catch((err) => {
@@ -29,7 +27,23 @@ module.exports = function (app){
     *  @return -> Los datos de la ciudad y del tiempo actual.
     **/
     app.get('/v1/current/:city?', async (req, res, next) => {
-        res.status(200).send({ mensaje: 'Los datos de la ciudad y del tiempo actual'})
+			let ciudad
+			if (req.params.city) {
+				ciudad = req.params.city
+			} else {
+				ciudad = await controllers.getLocation().then((locations) => { return locations.city }).catch((err) => {return err})
+			}
+			controllers.currentLocation(ciudad)
+				.then((locations) => {
+					res.status(200).send({ locations: locations})
+			})
+				.catch((err) => {
+					if(err == '404'){
+						res.status(404).send({ error: "No se pudo encontrar la ciudad"})
+					}else{
+						res.status(500).send({ error: err})
+					}
+				})
     })
 
     /** 

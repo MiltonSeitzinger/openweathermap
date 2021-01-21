@@ -33,6 +33,33 @@ async function getLocation() {
     })
 }
 
+/** 
+** Function -> /currentLocation
+*  @params  -> city.
+*  De acuerdo al valor de city que recibe como parametro busca los datos del tiempo actual en openweathermap.
+*  Puede haber 3 tipos de return
+*  @return -> status 200 -> la consulta se realizo de manera exitosa y devuelve los datos obtenidos.
+*  @return -> status 404 -> Realizo la consulta de manera exitosa, pero no pudo encontrar datos del tiempo con el valor de city.
+*  @return -> la consulta no se realizo de manera exitosa y devuelve el error del problema.
+**/
+async function currentLocation(city){
+	let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${KEYWEATHERMAP}&units=metric&lang=es`
+	return new Promise(async(resolve, reject) => {
+		let currentWeather = await fetch(url)
+					.then(openWheater => openWheater.json())
+					.then((weather) => {
+						return weather
+					})
+		if(currentWeather.cod == 404){
+			reject('404')
+		} else if (currentWeather.cod == 200) {
+			resolve(currentWeather)
+		} else{
+			reject(currentWeather.message)
+		}
+	})
+}
 module.exports = {
-    getLocation
+		getLocation,
+		currentLocation
 }
