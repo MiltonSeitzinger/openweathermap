@@ -1,10 +1,11 @@
 {
-  "name": "desafioFlow",
+  "name": "openweather",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "mocha tests/api.test.js --exit"
   },
   "keywords": [],
   "author": "",
@@ -14,7 +15,9 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "geoip-lite": "^1.4.2",
+    "mocha": "^8.2.1",
     "node-fetch": "^2.6.1",
-    "public-ip": "^4.0.3"
+    "public-ip": "^4.0.3",
+    "supertest": "^6.1.1"
   }
 }

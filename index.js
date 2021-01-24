@@ -18,8 +18,10 @@ app.use(function(req, res, next) {
 	next()
 })
 
-app.use('/v1', require('./routes'))
+require('./routes')(app)
 
 app.listen(port, () => {
 	console.log('Server Running on port: ', port)
 })
+
+module.exports = app
