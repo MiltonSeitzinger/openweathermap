@@ -2,13 +2,13 @@
 
 const controllers = require('./controller')
 
-module.exports = function (app){
+module.exports = function(){
 
     /** 
     ** Endpoint -> /location
     *  Llama al controlador getLocation -> La cual obtiene los datos de la ciudad de acuerdo a la IP.
     **/
-    app.get('/v1/location', (req, res) => {
+    app.get('/location', (req, res) => {
 			controllers.getLocation()
 				.then((locations) => {
 					return res.status(200).send({ locations: locations})
@@ -26,7 +26,7 @@ module.exports = function (app){
     *  Si city no viene incluido llama a getLocation(), para obtener el nombre de la ciudad actual a traves de la IP.
     *  @return -> Los datos de la ciudad y del tiempo actual.
     **/
-    app.get('/v1/current/:city?', async (req, res, next) => {
+    app.get('/current/:city?', async (req, res, next) => {
 			let ciudad
 			if (req.params.city) {
 				ciudad = req.params.city
@@ -53,7 +53,7 @@ module.exports = function (app){
     *  Si city no viene incluido llama a getLocation(), para obtener el nombre de la ciudad actual a traves de la IP.
     *  @return -> Los datos de la ciudad y del tiempo extendido a 5 dias.
     **/
-    app.get('/v1/forecast/:city?', async (req, res, next) => {
+    app.get('/forecast/:city?', async (req, res, next) => {
 			let ciudad
 			if (req.params.city) {
 				ciudad = req.params.city

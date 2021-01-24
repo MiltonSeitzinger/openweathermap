@@ -18,7 +18,7 @@ app.use(function(req, res, next) {
 	next()
 })
 
-require('./routes')(app)
+app.use('/v1', require('./routes'))
 
 app.listen(port, () => {
 	console.log('Server Running on port: ', port)
