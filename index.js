@@ -20,6 +20,9 @@ app.use(function(req, res, next) {
 
 require('./routes')(app)
 
+app.get('*', (req, res) => {
+	res.status(404).send({mensaje: 'No existe la ruta'})
+})
 app.listen(port, () => {
 	console.log('Server Running on port: ', port)
 })
