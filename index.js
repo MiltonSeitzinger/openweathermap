@@ -18,7 +18,7 @@ app.use(function(req, res, next) {
 	next()
 })
 
-require('./routes')(app)
+require('./routes/routes.js')(app)
 
 app.get('*', (req, res) => {
 	res.status(404).send({mensaje: 'No existe la ruta'})

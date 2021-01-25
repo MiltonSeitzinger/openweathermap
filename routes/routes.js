@@ -1,6 +1,6 @@
 'use strict'
 
-const controllers = require('./controller')
+const controllers = require('../controller/controller.js')
 
 module.exports = function(app){
 

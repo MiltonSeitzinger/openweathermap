@@ -3,7 +3,7 @@
 const publicIp = require('public-ip');
 const fetch = require('node-fetch')
 
-const { KEYWEATHERMAP, IP_API } = require('./config')
+const { KEYWEATHERMAP, IP_API } = require('../config')
 
 /** 
 ** Function -> /getLocation
