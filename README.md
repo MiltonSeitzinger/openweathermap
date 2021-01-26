@@ -3,7 +3,7 @@ Open Weather Map muestra el estado del tiempo
 
 ## Comenzando 🚀
 
-_Primero se debe obtener la Api Key de https://home.openweathermap.org/api_keys 
+_Primero se debe obtener la Api Key de https://home.openweathermap.org/api_keys_ 
 _Una vez que tenemos la key la agregamos en el archivo de configuracion config.js._
 
 ```
