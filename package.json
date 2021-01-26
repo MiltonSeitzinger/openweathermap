@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "mocha tests/api.test.js --exit"
+    "test": "mocha tests/api.test.js --timeout 3000 --exit"
   },
   "keywords": [],
   "author": "",
