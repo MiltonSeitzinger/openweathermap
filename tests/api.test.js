@@ -1,5 +1,6 @@
-const request = require('supertest')
 
+const request = require('supertest')
+const should = require('should')
 const app = require('../index')
 
 /**
@@ -7,32 +8,39 @@ const app = require('../index')
  */
 
 describe("GET /v1/location", () => {
-    it('Devuelve los datos de ubicación de acuerdo a la IP', done => {
-    	request(app)
-            .get('/v1/location')
-            .set('Accept', 'application/json')
-            .expect('Content-Type', /json/)
-            .expect(200)
-            .end(done)
-
-    });
+	it('Devuelve los datos de ubicación de acuerdo a la IP', done => {
+		request(app)
+		.get('/v1/location')
+		.set('Accept', 'application/json')
+		.expect('Content-Type', /json/)
+		.expect(200)
+		.end((err, res) => {
+			if (err) return done(err);
+			res.status.should.equal(200);
+			done();
+		})
+		
+	});
 });
-
 
 /**
  * Testear las rutas de current
  */
 describe("GET /v1/current/?city", () => {
-	/**
- 	* Testear la ruta de current, obteniendo el estado del tiempo actual con la IP del usuario
- 	*/
+/**
+* Testear la ruta de current, obteniendo el estado del tiempo actual con la IP del usuario
+*/
 	it('Obtención del tiempo actual sin parámetros, tomando la localización de acuerdo a la IP', done => {
 		request(app)
 		.get('/v1/current')
 		.set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
-        .end(done)
+        .end((err, res) => {
+					if (err) return done(err);
+					res.status.should.equal(200)
+					done();
+				})
 	});
 
 	/**
@@ -44,7 +52,11 @@ describe("GET /v1/current/?city", () => {
 		.set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
-        .end(done)
+        .end((err, res) => {
+					if (err) return done(err);
+					res.status.should.equal(200)
+					done();
+				})
 	});
 
 	/**
@@ -52,20 +64,21 @@ describe("GET /v1/current/?city", () => {
  	*/
 	it('Una ciudad inexistente pasada como parámetro', done => {
 		request(app)
-		.get('/v1/current/cualquierciudad')
+		.get('/v1/current/city_not_found')
 		.set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(404)
       	.expect('{"error":"No se pudo encontrar la ciudad"}')
-      	.end((err) => {
-        	if (err) return done(err);
-        	done();
-      	});
+      	.end((err, res) => {
+					if (err) return done(err);
+					res.status.should.equal(404)
+					done();
+				})
 	})
 
 	/**
  	* Testear la ruta de current, con una apikeyInvalida.
- 	
+ 	*/
 	it('En caso de que no exista la apiKey de openMapWeather', done => {
 		request(app)
 			.get('/v1/current')
@@ -73,7 +86,7 @@ describe("GET /v1/current/?city", () => {
             .expect('Content-Type', /json/)
             .expect(500, done)
 
-	});*/
+	});
 
 })
 
@@ -89,7 +102,11 @@ describe("GET /v1/forecast/?city", () => {
 		.set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
-        .end(done)
+        .end((err, res) => {
+					if (err) return done(err);
+					res.status.should.equal(200)
+					done();
+				})
 	});
 	
 	/**
@@ -102,7 +119,11 @@ describe("GET /v1/forecast/?city", () => {
 		.set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
-        .end(done)
+        .end((err, res) => {
+					if (err) return done(err);
+					res.status.should.equal(200)
+					done();
+				})
 	});
 
 	/**
@@ -116,41 +137,53 @@ describe("GET /v1/forecast/?city", () => {
         .expect('Content-Type', /json/)
         .expect(404)
       	.expect('{"error":"No se pudo encontrar la ciudad"}')
-      	.end((err) => {
-        	if (err) return done(err);
-        	done();
-      	});
+      	.end((err, res) => {
+					if (err) return done(err);
+					res.status.should.equal(404)
+					done();
+				})
 	})
 
 	/**
  	* Testear la ruta de forecast, sin apiKey.
- 	
+ 	*/
 	it('En caso de que no exista la apiKey de openMapWeather', done => {
 		request(app)
-			.get('/v1/current')
-            .set('Accept', 'application/json')
-            .expect('Content-Type', /json/)
-            .expect(500, done)
-
-	});*/
+		.get('/v1/current')
+		.set('Accept', 'application/json')
+		.expect('Content-Type', /json/)
+		.expect(500)
+		.end((err, res) => { 
+			if(err) {
+				console.log(res.body.error)
+				return done(err)
+			}
+			res.status.should.equals(500)
+			done()
+		})
+		
+	});
+	
 })
 
 /**
  * Testear una ruta inexistente
  */
 
-describe("GET /v1/rutainexistente", () => {
-    it('Una ruta que no es válida', done => {
-        request(app)
-            .get('/v1/rutainexistente')
-            .set('Accept', 'application/json')
-            .expect('Content-Type', /json/)
-            .expect(404)
-      		.expect('{"mensaje":"No existe la ruta"}')
-      		.end((err) => {
-        		if (err) return done(err);
-        		done();
-      	});
-    });
+describe("GET /v1/route_not_found", () => {
+	it('Una ruta que no es válida', done => {
+		request(app)
+		.get('/v1/rutainexistente')
+		.set('Accept', 'application/json')
+		.expect('Content-Type', /json/)
+		.expect(404)
+		.expect('{"mensaje":"No existe la ruta"}')
+		.end((err, res) => {
+			if (err) return done(err);
+			res.status.should.equal(404)
+			done();
+		})
+	});
 });
-
+	
+	
