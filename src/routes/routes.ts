@@ -1,14 +1,16 @@
 import { Express, Request, Response, NextFunction } from 'express';
 import * as controllers from '../controller/controller';
+import { IpApiSuccessResponse } from '../interface/location.interface';
+import { ForecastResponse, WeatherResponse } from '../interface/weather.interface';
 
 export default function (app: Express): void {
 
 	app.get('/v1/location', async (_req: Request, res: Response) => {
 		controllers.getLocation()
-			.then((locations: any) => {
+			.then((locations: IpApiSuccessResponse) => {
 				return res.status(200).send({ locations: locations });
 			})
-			.catch((err: any) => {
+			.catch((err: string) => {
 				return res.status(404).send({ error: err });
 			});
 	});
@@ -22,18 +24,19 @@ export default function (app: Express): void {
 		let ciudad: string;
 
 		ciudad = await controllers.getLocation()
-			.then((locations: any) => {
+			.then((locations: IpApiSuccessResponse) => {
 				return locations.city || '';
 			})
-			.catch((err: any) => {
+			.catch((err: string) => {
 				return err;
 			});
+		console.log('ciudad', ciudad)
 
 		controllers.currentLocation(ciudad)
-			.then((locations: any) => {
+			.then((locations: WeatherResponse) => {
 				return res.status(200).send({ locations: locations });
 			})
-			.catch((err: any) => {
+			.catch((err: string) => {
 				if (err == '404') {
 					return res.status(404).send({ error: "No se pudo encontrar la ciudad" });
 				} else {
@@ -52,10 +55,10 @@ export default function (app: Express): void {
 		const ciudad: string = req.params.city;
 
 		controllers.currentLocation(ciudad)
-			.then((locations: any) => {
+			.then((locations: WeatherResponse) => {
 				return res.status(200).send({ locations: locations });
 			})
-			.catch((err: any) => {
+			.catch((err: string) => {
 				if (err == '404') {
 					return res.status(404).send({ error: "No se pudo encontrar la ciudad" });
 				} else {
@@ -73,18 +76,18 @@ export default function (app: Express): void {
 		let ciudad: string;
 
 		ciudad = await controllers.getLocation()
-			.then((locations: any) => {
+			.then((locations: IpApiSuccessResponse) => {
 				return locations.city || '';
 			})
-			.catch((err: any) => {
+			.catch((err: string) => {
 				return err;
 			});
 
 		controllers.forecastLocation(ciudad)
-			.then((locations: any) => {
+			.then((locations: ForecastResponse) => {
 				return res.status(200).send({ locations: locations });
 			})
-			.catch((err: any) => {
+			.catch((err: string) => {
 				if (err == '404') {
 					return res.status(404).send({ error: "No se pudo encontrar la ciudad" });
 				} else {
@@ -103,10 +106,10 @@ export default function (app: Express): void {
 		const ciudad: string = req.params.city;
 
 		controllers.forecastLocation(ciudad)
-			.then((locations: any) => {
+			.then((locations: ForecastResponse) => {
 				return res.status(200).send({ locations: locations });
 			})
-			.catch((err: any) => {
+			.catch((err: string) => {
 				if (err == '404') {
 					return res.status(404).send({ error: "No se pudo encontrar la ciudad" });
 				} else {
