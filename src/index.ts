@@ -1,7 +1,7 @@
 import bodyParser from 'body-parser';
 import express, { Express, Request, Response, NextFunction } from 'express';
 import cors from 'cors';
-import routes from './routes/routes';
+import routes from './routes/weather.routes';
 
 const port: number = parseInt(process.env.PORT || '3000', 10);
 const app: Express = express();
@@ -17,6 +17,7 @@ app.use((_req: Request, res: Response, next: NextFunction) => {
     res.header("Access-Control-Allow-Headers", 'Origin, X-Requested-With, Content-Type, Accept');
     next();
 });
+
 
 routes(app);
 

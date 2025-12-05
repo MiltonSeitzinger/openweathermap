@@ -810,14 +810,16 @@ Asegúrate de que tu `.gitignore` incluya todos los archivos que no deben versio
 
 ---
 
-## 🎯 Próximos Pasos Sugeridos (Orden de Prioridad)
+## 🎯 Próximos Pasos (Orden de Prioridad)
 
-1. **ALTA:** Definir interfaces y tipos (eliminar `any`)
-2. **ALTA:** Separar Controller y Service correctamente
-3. **MEDIA:** Implementar dotenv y actualizar .gitignore
-4. **MEDIA:** Mejorar manejo de errores
-5. **BAJA:** Optimizar código y agregar validación
-6. **BAJA:** Migrar tests a TypeScript
+1. ✅ Definir interfaces y tipos (eliminar `any`) 
+2. ✅ Separar Controller y Service correctamente
+3. 🏗️ Implementar dotenv.
+4. 🏗️ Actualizar .gitignore con archivos necesarios
+5. 🏗️ Mejorar manejo de errores
+6. 🏗️ Optimizar código y agregar validación
+7. 🏗️ Agregar validación de entrada
+6. 🏗️ Migrar tests a TypeScript
 
 ---
 
