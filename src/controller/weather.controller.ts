@@ -5,17 +5,6 @@ import { fetchWeather } from '../service/weather.service';
 import { IpApiSuccessResponse } from '../interface/location.interface';
 
 
-export async function getLocation(_req: Request, res: Response) {
-	try {
-		const ip = await getIp();
-		const city = await getCity(ip);
-		return res.json(city);
-	} catch (err) {
-		res.status(500).json({ error: err });
-		throw err;
-	}
-}
-
 export async function currentLocationWeatherByIp(_req: Request, res: Response) {
 	try {
 		const ip = await getIp();
