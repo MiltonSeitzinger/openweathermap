@@ -1,7 +1,8 @@
 import bodyParser from 'body-parser';
 import express, { Express, Request, Response, NextFunction } from 'express';
 import cors from 'cors';
-import routes from './routes/routes';
+import weatherRoutes from './routes/weather.routes';
+import locationRoutes from './routes/location.routes';
 
 const port: number = parseInt(process.env.PORT || '3000', 10);
 const app: Express = express();
@@ -18,7 +19,9 @@ app.use((_req: Request, res: Response, next: NextFunction) => {
     next();
 });
 
-routes(app);
+
+weatherRoutes(app);
+locationRoutes(app);
 
 app.listen(port, () => {
     console.log('Server Running on port: ', port);
